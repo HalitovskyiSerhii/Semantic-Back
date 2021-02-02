@@ -2,28 +2,30 @@ import logging
 import os
 
 api_version = "v1"
-
+confs = {
+    'PROD':'config.ProductionConfig',
+    'DEV':'config.DevelopmentConfig',
+    'TEST':'config.TestingConfig',
+}
 
 class BaseConfig(object):
-    DEBUG = False
     API_VERSION = api_version
     ELASTIC_HOST = os.environ.get('ELASTIC_HOST', 'localhost')
     ELASTIC_PORT = os.environ.get('ELASTIC_PORT', '9200')
+
+class ProductionConfig(BaseConfig):
+    DEBUG = False
+    LOG_LEVEL = logging.INFO
 
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     LOG_LEVEL = logging.DEBUG
-    API_VERSION = api_version
-    ELASTIC_HOST = os.environ.get('ELASTIC_HOST', 'localhost')
-    ELASTIC_PORT = os.environ.get('ELASTIC_PORT', '9200')
 
 
 class TestingConfig(BaseConfig):
     DEBUG = True
-    API_VERSION = api_version
-    ELASTIC_HOST = os.environ.get('ELASTIC_HOST', 'localhost')
-    ELASTIC_PORT = os.environ.get('ELASTIC_PORT', '9200')
+    LOG_LEVEL = logging.DEBUG
 
 
 elastic_commands = {

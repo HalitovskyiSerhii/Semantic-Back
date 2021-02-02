@@ -3,12 +3,12 @@ import logging
 from flask import Flask
 
 from extensions import *
-from config import elastic_commands
+from config import elastic_commands, confs
 
 
-def create_app() -> Flask:
+def create_app(env) -> Flask:
     app = Flask(__name__)
-    app.config.from_object('config.DevelopmentConfig')
+    app.config.from_object(confs[env])
     cfg = app.config
 
     logging.basicConfig(level=cfg['LOG_LEVEL'])
