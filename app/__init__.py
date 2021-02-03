@@ -6,7 +6,7 @@ from extensions import *
 from config import elastic_commands, confs
 
 
-def create_app(env) -> Flask:
+def create_app(env='DEV') -> Flask:
     app = Flask(__name__)
     app.config.from_object(confs[env])
     cfg = app.config

@@ -12,7 +12,7 @@ confs = {
 class BaseConfig(object):
     API_VERSION = api_version
     HOST = os.environ.get('HOST', '0.0.0.0'),
-    PORT = os.environ.get('PORT', 80)
+    PORT = os.environ.get('PORT', 5000)
     ELASTIC_HOST = os.environ.get('ELASTIC_HOST', 'localhost')
     ELASTIC_PORT = os.environ.get('ELASTIC_PORT', '9200')
     SECRET_KEY = os.environ.get('SECRET_KEY')
