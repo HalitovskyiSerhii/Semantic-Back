@@ -6,4 +6,5 @@ RUN pip install torch==1.7.1+cpu torchtext==0.8.1 -f https://download.pytorch.or
 RUN python3.9 -m pip install -r requirements.txt
 RUN python3.9 -m spacy download en_core_web_sm
 COPY . /app
-CMD [ "python", "./run.py" ]
+CMD uwsgi --ini server.ini
+
