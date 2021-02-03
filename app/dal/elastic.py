@@ -21,7 +21,7 @@ class ElasticUtil(object):
                 logging.info('Cannot ping Elastic node!')
             return _es
 
-    def create_index(self, index_name='main', type_name: str = '_doc', body=None):
+    def create_index(self, index_name='es', type_name: str = '_doc', body=None):
         if body is None:
             body = {}
         created = False
@@ -65,6 +65,6 @@ class ElasticRepository(object):
 
     def save(self, obj):
         try:
-            outcome = self.esc.index(index='main', body=json.dumps(obj))
+            outcome = self.esc.index(index='es', body=json.dumps(obj))
         except Exception as ex:
             logging.error(str(ex))
