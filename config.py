@@ -42,7 +42,7 @@ elastic_commands = {
         "properties": {
             "type": {"type": "keyword"},
             "body": {"type": "text"},
-            "key_phrases": {"type": "text"},
+            "key_phrases": {"type": "keyword"},
         }
     },
 
