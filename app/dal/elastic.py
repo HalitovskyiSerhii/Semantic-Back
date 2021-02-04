@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from elasticsearch import Elasticsearch
 from flask import json
@@ -10,16 +11,22 @@ class ElasticUtil(object):
         self.es = None
         self.rep = None
 
-    def connect_elasticsearch(self, elastic_host, elastic_port):
+    def connect_elasticsearch(self, elastic_host, elastic_port, retries=3):
         if not self.es:
-            _es = None
-            _es = Elasticsearch([{'host': elastic_host, 'port': elastic_port}])
-            if _es.ping():
-                logging.info('Elastic connected!')
-                self.es = _es
-            else:
-                logging.info('Cannot ping Elastic node!')
-            return _es
+            try:
+                _es = None
+                _es = Elasticsearch([{'host': elastic_host, 'port': elastic_port}])
+                if _es.ping():
+                    logging.info('Elastic connected!')
+                    self.es = _es
+                else:
+                    logging.info('Cannot ping Elastic node!')
+            except Exception as e:
+                logging.error(str(e))
+                if retries > 0:
+                    sleep(5)
+                    self.es = self.connect_elasticsearch(elastic_host, elastic_port, retries - 1)
+            return self.es
 
     def create_index(self, index_name='es', type_name: str = '_doc', body=None):
         if body is None:
