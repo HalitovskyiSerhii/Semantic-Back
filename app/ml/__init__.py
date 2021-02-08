@@ -9,9 +9,12 @@ spacy_en.remove_pipe('ner')
 vocab = list(spacy_en.vocab.strings)
 
 
-def tokenizer(text):  # create a tokenizer function
-    return [tok.lemma_ for tok in spacy_en.tokenizer(text)
-            if tok.text.isalpha() and len(tok.lemma_) > 1 and tok.lemma_ not in ['\ufeff1','-PRON-','-pron-']]
+def tokenizer(text, use_lema=False):  # create a tokenizer function
+    p = 'lemma_' if use_lema else 'text'  # property to use
+    return [getattr(tok, p, '') for tok in spacy_en.tokenizer(text)
+            if tok.text.isalpha()
+            and len(getattr(tok, p, '')) > 1
+            and getattr(tok, p, '') not in ['\ufeff1', '-PRON-', '-pron-']]
 
 
 counters = dict(
@@ -24,4 +27,4 @@ counters = dict(
       )
      for i in range(1, 4)]
 )
-extractor = Extractor()
+extractor = Extractor(tokenizer)
